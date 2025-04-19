@@ -1,0 +1,50 @@
+# Use uma imagem base do Python com o Flask instalado
+FROM python:3.9-slim-buster as builder
+
+# Atualize os pacotes do sistema e instale o Graphviz (se necessário)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    graphviz \
+    && rm -rf /var/lib/apt/lists/*
+
+# Crie um grupo e usuário não-root
+RUN groupadd --system appgroup && useradd --system --gid appgroup appuser
+
+# Defina o diretório de trabalho dentro do container
+WORKDIR /app
+
+# Copie os arquivos do projeto para o container
+COPY . /app
+
+# Altere a propriedade do diretório para o usuário não-root
+RUN chown -R appuser:appgroup /app
+
+# Instale as dependências do Python
+RUN pip install --no-cache-dir --user -r requirements.txt
+
+# --- Imagem de produção (menor e mais segura) ---
+FROM python:3.9-slim-buster
+
+# Copie apenas o necessário da imagem de construção
+COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
+COPY --from=builder /app /app
+
+# Crie um grupo e usuário não-root (igual à imagem de construção)
+RUN groupadd --system appgroup && useradd --system --gid appgroup appuser
+
+# Altere a propriedade do diretório para o usuário não-root
+RUN chown -R appuser:appgroup /app
+
+# Troque para o usuário não-root
+USER appuser
+
+# Defina o diretório de trabalho
+WORKDIR /app
+
+# Exponha a porta
+EXPOSE 5000
+
+# Defina a variável de ambiente para o Flask
+ENV FLASK_APP=app.py
+
+# Execute o aplicativo Flask
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]

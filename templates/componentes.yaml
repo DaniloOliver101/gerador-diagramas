@@ -1,0 +1,17 @@
+diagrama:
+  tipo: "componentes" # Tipo do diagrama: componentes
+  titulo: "Título do Diagrama de Componentes" # Título do diagrama
+  descricao_alternativa: "Descrição alternativa para a imagem do diagrama (acessibilidade)." # Descrição para acessibilidade
+  componentes: # Lista de componentes
+    - nome: "Nome do Componente 1" # Nome do componente
+      tipo: "Tipo do Componente 1 (ex: Serviço, Biblioteca)" # Tipo do componente (opcional)
+      localizacao: "Localização do Componente 1 (ex: Frontend, Backend)" # Localização do componente (opcional)
+      descricao: "Descrição do Componente 1 (opcional)." # Descrição do componente (opcional)
+    - nome: "Nome do Componente 2"
+      tipo: "Tipo do Componente 2"
+      localizacao: "Localização do Componente 2"
+      descricao: "Descrição do Componente 2"
+  relacionamentos: # Lista de relacionamentos entre componentes
+    - de: "Nome do Componente 1" # Componente de origem do relacionamento
+      para: "Nome do Componente 2" # Componente de destino do relacionamento
+      tipo: "Tipo de relacionamento (ex: Usa, Depende de)" # Tipo do relacionamento

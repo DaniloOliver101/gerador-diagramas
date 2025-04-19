@@ -1,0 +1,26 @@
+diagrama:
+  tipo: "implantacao" # Tipo do diagrama: implantação
+  titulo: "Título do Diagrama de Implantação" # Título do diagrama
+  descricao_alternativa: "Descrição alternativa para a imagem do diagrama (acessibilidade)." # Descrição para acessibilidade
+  nos: # Lista de nós (ou dispositivos)
+    - nome: "Nome do Nó 1" # Nome do nó
+      tipo: "Tipo do Nó 1 (ex: Servidor, Cliente, Banco de Dados)" # Tipo do nó
+      descricao: "Descrição do Nó 1 (opcional)." # Descrição do nó (opcional)
+    - nome: "Nome do Nó 2"
+      tipo: "Tipo do Nó 2"
+      descricao: "Descrição do Nó 2"
+    artefatos: # Lista de artefatos implantados nos nós (opcional)
+    - nome: "Nome do Artefato 1" # Nome do artefato
+      tipo: "Tipo do Artefato 1 (ex: Aplicação, Banco de Dados)" # Tipo do artefato
+      container: "Nome do Nó onde o artefato está implantado" # Nó onde o artefato está implantado
+      descricao: "Descrição do Artefato 1 (opcional)." # Descrição do artefato
+    - nome: "Nome do Artefato 2"
+      tipo: "Tipo do Artefato 2"
+      container: "Nome do Nó 2"
+      descricao: "Descrição do Artefato 2"
+  conexoes: # Lista de conexões entre os nós
+    - de: "Nome do Nó 1" # Nó de origem da conexão
+      para: "Nome do Nó 2" # Nó de destino da conexão
+      tipo: "Tipo de conexão (ex: HTTP, TCP/IP)" # Tipo da conexão
+      porta: "Número da porta (opcional)" # Número da porta (opcional)
+      nome: "Nome da conexão (opcional)" # Nome da conexão (opcional)

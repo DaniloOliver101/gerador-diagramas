@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Diagramas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Gerador de Diagramas</h1>
+        <div class="input-area">
+            <label for="yaml-input">Cole seu código YAML aqui:</label>
+            <textarea id="yaml-input" rows="10" cols="50"></textarea>
+            <button id="gerar-diagrama">Gerar Diagrama</button>
+        </div>
+        <div class="output-area">
+            <h2>Diagrama Gerado</h2>
+            <div id="diagrama-container">
+                </div>
+            <div class="image-controls">
+                <button id="download-diagram" style="display: none;">Download</button>
+                <button id="copy-diagram" style="display: none;">Copiar Imagem</button>
+            </div>
+            <div id="descricao-alternativa">
+                </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

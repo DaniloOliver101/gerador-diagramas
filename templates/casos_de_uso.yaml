@@ -1,0 +1,18 @@
+diagrama:
+  tipo: "casos de uso" # Tipo do diagrama: casos de uso
+  titulo: "Título do Diagrama de Casos de Uso" # Título do diagrama
+  descricao_alternativa: "Descrição alternativa para a imagem do diagrama (acessibilidade)." # Descrição para acessibilidade
+  atores: # Lista de atores (entidades externas que interagem com o sistema)
+    - nome: "Nome do Ator 1" # Nome do ator
+      descricao: "Descrição do Ator 1 (opcional)." # Descrição do ator (opcional)
+    - nome: "Nome do Ator 2"
+      descricao: "Descrição do Ator 2 (opcional)."
+  casos_de_uso: # Lista de casos de uso (funcionalidades do sistema)
+    - nome: "Nome do Caso de Uso 1" # Nome do caso de uso
+      descricao: "Descrição do Caso de Uso 1 (opcional)." # Descrição do caso de uso (opcional)
+    - nome: "Nome do Caso de Uso 2"
+      descricao: "Descrição do Caso de Uso 2 (opcional)."
+  relacionamentos: # Lista de relacionamentos entre atores e casos de uso
+    - de: "Nome do Ator 1" # Ator de origem do relacionamento
+      para: "Nome do Caso de Uso 1" # Caso de uso de destino do relacionamento
+      tipo: "Tipo de relacionamento (usa, inclui, estende, etc.)" # Tipo do relacionamento
