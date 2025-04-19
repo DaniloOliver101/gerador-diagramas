@@ -1,64 +1,171 @@
-# Gerador de Diagramas
+# 🧩 Gerador de Diagramas
 
-Este projeto permite gerar diagramas a partir de arquivos YAML. Ele suporta os seguintes tipos de diagramas:
+Gere diagramas diretamente a partir de arquivos YAML! Suporte para:
 
-* Casos de Uso
-* Classes
-* Sequência
-* Componentes
-* Implantação
+- Casos de Uso
+- Classes
+- Sequência
+- Componentes
+- Implantação
 
-## Pré-requisitos
+## 🚀 Execução Rápida com Docker
 
-Antes de instalar e executar o gerador de diagramas, certifique-se de que os seguintes pré-requisitos estejam instalados no seu sistema:
+Execute o projeto facilmente com Docker, já incluindo todas as dependências necessárias (como o Graphviz).
 
-* **Python:** Versão 3.9 ou superior. Você pode verificar a versão instalada executando `python --version` ou `python3 --version` no terminal.
-* **pip:** Gerenciador de pacotes do Python. Geralmente, o pip é instalado junto com o Python.
-* **Graphviz:** Software de visualização de grafos. É necessário para gerar as imagens dos diagramas.
+### ✅ Pré-requisitos
 
-### Instalação do Graphviz
+- [Docker instalado](https://docs.docker.com/get-docker/)
 
-A instalação do Graphviz varia dependendo do sistema operacional:
+### 📦 Passos
 
-* **Windows:**
-    1.  Baixe o instalador do Graphviz do site oficial: [https://graphviz.org/download/](https://graphviz.org/download/)
-    2.  Execute o instalador e siga as instruções.
-    3.  Adicione o diretório `bin` do Graphviz (por exemplo, `C:\Program Files\Graphviz\bin`) à variável de ambiente `PATH`. Você pode fazer isso nas configurações do sistema.
-    4.  Reinicie o terminal ou o computador para que a alteração na variável `PATH` seja reconhecida.
-* **macOS:**
-    1.  Instale o Homebrew (se ainda não estiver instalado): `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
-    2.  Instale o Graphviz usando o Homebrew: `brew install graphviz`
-* **Linux (Debian/Ubuntu):**
-    1.  Abra o terminal.
-    2.  Execute o seguinte comando: `sudo apt-get install graphviz`
+1. **Clone o repositório:**
 
-## Instalação do Projeto
+   ```bash
+   git clone https://github.com/DaniloOliver101/gerador-diagramas.git
+   cd gerador-diagramas
+   ```
 
-1.  Clone o repositório do projeto para o seu computador.
-2.  Navegue até o diretório do projeto no terminal.
-3.  Crie um ambiente virtual (recomendado):
-    * `python3 -m venv .venv` (ou `python -m venv .venv`)
-    * Ative o ambiente virtual:
-        * **Linux/macOS:** `source .venv/bin/activate`
-        * **Windows:** `.\.venv\Scripts\activate`
-4.  Instale as dependências do Python: `pip install -r requirements.txt`
+2. **Construa a imagem Docker:**
 
-## Uso
+   ```bash
+   docker build -t gerador-diagramas:latest .
+   ```
 
-1.  Crie um arquivo YAML com a definição do diagrama que você deseja gerar. Você pode usar os templates fornecidos como referência.
-2.  Execute o script principal: `python app.py`
-3.  Abra o navegador e acesse `http://127.0.0.1:5000/`.
-4.  Cole o conteúdo do arquivo YAML no campo de texto e clique no botão "Gerar Diagrama".
-5.  O diagrama será exibido na página, juntamente com as opções para download e cópia.
+3. **Inicie o container:**
 
-## Exemplos de Arquivos YAML
+   ```bash
+   docker run -d -p 5000:5000 --name gerador-diagramas-app gerador-diagramas:latest
+   ```
 
-Consulte a pasta `templates_yaml` para exemplos de arquivos YAML para cada tipo de diagrama.
+4. **Acesse a aplicação:**
 
-## Contribuição
+   Abra seu navegador em: [http://localhost:5000](http://localhost:5000)
 
-Contribuições são bem-vindas! Sinta-se à vontade para enviar pull requests com melhorias, correções de bugs ou novos recursos.
+---
 
-## Licença
+### 🛠 Gerenciamento do Container (Opcional)
 
-[Especificar a licença do projeto]
+- Ver logs:
+  ```bash
+  docker logs gerador-diagramas-app
+  ```
+- Parar:
+  ```bash
+  docker stop gerador-diagramas-app
+  ```
+- Iniciar:
+  ```bash
+  docker start gerador-diagramas-app
+  ```
+- Remover container:
+  ```bash
+  docker stop gerador-diagramas-app && docker rm gerador-diagramas-app
+  ```
+- Remover imagem:
+  ```bash
+  docker rmi gerador-diagramas:latest
+  ```
+
+---
+
+### 🧯 Solução de Problemas Comuns
+
+- **Página não carrega?** Verifique os logs:
+  ```bash
+  docker logs gerador-diagramas-app
+  ```
+
+- **Erro `ERR_EMPTY_RESPONSE`?** Verifique se o Flask está configurado para aceitar conexões externas:
+  ```python
+  app.run(host='0.0.0.0')
+  ```
+
+- **Porta em uso?** Use outra porta:
+  ```bash
+  docker run -d -p 8080:5000 gerador-diagramas:latest
+  ```
+  E acesse: [http://localhost:8080](http://localhost:8080)
+
+---
+
+## 🐍 Instalação Manual (Alternativa ao Docker)
+
+### ✅ Pré-requisitos
+
+- Python 3.9+ (verifique com `python --version`)
+- pip (geralmente já vem com o Python)
+- Graphviz (visualizador de grafos)
+
+### 📥 Instalando o Graphviz
+
+- **Windows:**  
+  Baixe de [https://graphviz.org/download/](https://graphviz.org/download/), instale e adicione o diretório `bin` ao PATH. Reinicie o terminal.
+
+- **macOS:**
+  ```bash
+  brew install graphviz
+  ```
+
+- **Linux (Debian/Ubuntu):**
+  ```bash
+  sudo apt-get install graphviz
+  ```
+
+### ⚙️ Instalando o Projeto
+
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/seu-usuario/gerador-diagramas.git
+   cd gerador-diagramas
+   ```
+
+2. **Crie e ative um ambiente virtual:**
+
+   - Linux/macOS:
+     ```bash
+     python3 -m venv .venv
+     source .venv/bin/activate
+     ```
+
+   - Windows:
+     ```bash
+     python -m venv .venv
+     .\.venv\Scripts\activate
+     ```
+
+3. **Instale as dependências:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+---
+
+## 🧪 Como Usar
+
+1. Crie um arquivo `.yaml` definindo seu diagrama (veja exemplos na pasta `templates_yaml`).
+2. Execute o script:
+   ```bash
+   python app.py
+   ```
+3. Acesse: [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+4. Cole o conteúdo do YAML, clique em **Gerar Diagrama** e visualize o resultado!
+
+---
+
+## 📂 Exemplos YAML
+
+Veja a pasta `templates_yaml/` para exemplos prontos para:
+
+- Casos de uso
+- Diagrama de classes
+- Sequência
+- Componentes
+- Implantação
+
+---
+
+## 🤝 Contribuição
+
+Pull requests são bem-vindos! Sinta-se à vontade para sugerir melhorias, corrigir bugs ou adicionar novos recursos.
+
+

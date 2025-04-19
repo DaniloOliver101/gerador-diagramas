@@ -1,35 +1,28 @@
-# Use uma imagem base do Python com o Flask instalado
-FROM python:3.9-slim-buster as builder
+# Use uma imagem base do Python
+FROM python:3.9-slim-buster
 
-# Atualize os pacotes do sistema e instale o Graphviz (se necessário)
+# Atualize os pacotes do sistema e instale o Graphviz e dependências necessárias
 RUN apt-get update && apt-get install -y --no-install-recommends \
     graphviz \
     && rm -rf /var/lib/apt/lists/*
 
-# Crie um grupo e usuário não-root
+# Crie um grupo e usuário não-root para maior segurança
 RUN groupadd --system appgroup && useradd --system --gid appgroup appuser
 
 # Defina o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copie os arquivos do projeto para o container
-COPY . /app
-
-# Altere a propriedade do diretório para o usuário não-root
-RUN chown -R appuser:appgroup /app
+# Copie primeiro apenas o arquivo de requisitos para aproveitar o cache do Docker
+COPY requirements.txt /app/
 
 # Instale as dependências do Python
-RUN pip install --no-cache-dir --user -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# --- Imagem de produção (menor e mais segura) ---
-FROM python:3.9-slim-buster
+# Copie o resto dos arquivos do projeto para o container
+COPY . /app/
 
-# Copie apenas o necessário da imagem de construção
-COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
-COPY --from=builder /app /app
-
-# Crie um grupo e usuário não-root (igual à imagem de construção)
-RUN groupadd --system appgroup && useradd --system --gid appgroup appuser
+# Crie a pasta temp para armazenar as imagens temporárias se não existir
+RUN mkdir -p /app/temp && chmod 777 /app/temp
 
 # Altere a propriedade do diretório para o usuário não-root
 RUN chown -R appuser:appgroup /app
@@ -37,14 +30,9 @@ RUN chown -R appuser:appgroup /app
 # Troque para o usuário não-root
 USER appuser
 
-# Defina o diretório de trabalho
-WORKDIR /app
-
-# Exponha a porta
+# Exponha a porta que o Flask utilizará
 EXPOSE 5000
 
-# Defina a variável de ambiente para o Flask
-ENV FLASK_APP=app.py
-
-# Execute o aplicativo Flask
-CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
+# Comando para executar a aplicação quando o container iniciar
+# Use a opção host=0.0.0.0 para que o Flask aceite conexões externas ao container
+CMD ["python", "-c", "from app import app; app.run(host='0.0.0.0', debug=False)"]
