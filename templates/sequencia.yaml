@@ -1,0 +1,13 @@
+diagrama:
+  tipo: "sequencia" # Tipo do diagrama: sequência
+  titulo: "Título do Diagrama de Sequência" # Título do diagrama
+  descricao_alternativa: "Descrição alternativa para a imagem do diagrama (acessibilidade)." # Descrição para acessibilidade
+  objetos: # Lista de objetos (ou participantes) no diagrama
+    - nome: "Nome do Objeto 1" # Nome do objeto
+      tipo: "Tipo do Objeto 1 (opcional, ex: Classe, Sistema)" # Tipo do objeto (opcional)
+    - nome: "Nome do Objeto 2"
+      tipo: "Tipo do Objeto 2 (opcional)"
+  mensagens: # Lista de mensagens (ou chamadas de método) entre os objetos
+    - de: "Nome do Objeto 1" # Objeto de origem da mensagem
+      para: "Nome do Objeto 2" # Objeto de destino da mensagem
+      mensagem: "Descrição da Mensagem (ex: métodoChamado(argumento))" # Descrição da mensagem
