@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagram Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Diagram Generator</h1>
+        
+        <!-- Language Selection -->
+        <div class="language-selection">
+            <p>Supported languages / Idiomas suportados: English, Português</p>
+        </div>
+        
+        <!-- AI YAML Generation Area -->
+        <div class="ai-prompt-area">
+            <h2>Generate YAML with AI</h2>
+            <label for="ai-prompt">Describe the diagram you want to create (English or Portuguese):</label>
+            <textarea id="ai-prompt" rows="4" placeholder="Example: Create an architecture diagram for an e-commerce system with frontend, API and database.
+Exemplo: Crie um diagrama de arquitetura para um sistema de e-commerce com frontend, API e banco de dados."></textarea>
+            <button id="gerar-yaml" class="ai-button">Generate YAML with AI</button>
+            <div class="loader" id="ai-loader" style="display: none;">Processing...</div>
+        </div>
+        
+        <!-- Manual YAML Input Area -->
+        <div class="input-area">
+            <h2>Edit YAML</h2>
+            <label for="yaml-input">Diagram YAML code (English or Portuguese):</label>
+            <textarea id="yaml-input" rows="10" cols="50"></textarea>
+            <button id="gerar-diagrama">Generate Diagram</button>
+        </div>
+        
+        <!-- Diagram Display Area -->
+        <div class="output-area">
+            <h2>Generated Diagram</h2>
+            <div id="diagrama-container"></div>
+            <div class="image-controls">
+                <button id="download-diagram" style="display: none;">Download</button>
+                <button id="copy-diagram" style="display: none;">Copy Image</button>
+            </div>
+            <div id="descricao-alternativa"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

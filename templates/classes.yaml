@@ -1,0 +1,27 @@
+diagrama:
+  tipo: "classes" # Tipo do diagrama: classes
+  titulo: "Título do Diagrama de Classes" # Título do diagrama
+  descricao_alternativa: "Descrição alternativa para a imagem do diagrama (acessibilidade)." # Descrição para acessibilidade
+  classes: # Lista de classes
+    - nome: "Nome da Classe 1" # Nome da classe
+      atributos: # Lista de atributos da classe (opcional)
+        - "nomeAtributo1: TipoAtributo1" # Nome e tipo do atributo
+        - "nomeAtributo2: TipoAtributo2"
+      metodos: # Lista de métodos da classe (opcional)
+        - "nomeMetodo1(parametro1: TipoParametro1): TipoRetorno" # Nome, parâmetros e tipo de retorno do método
+        - "nomeMetodo2(): void"
+      abstrata: true/false # Indica se a classe é abstrata (opcional)
+      herda_de: "NomeDaClassePai" # Nome da classe pai (para herança, opcional)
+    - nome: "Nome da Classe 2"
+      # ...
+  relacionamentos: # Lista de relacionamentos entre classes
+    - de: "Nome da Classe 1" # Classe de origem do relacionamento
+      para: "Nome da Classe 2" # Classe de destino do relacionamento
+      tipo: "Tipo de relacionamento (associação, agregação, composição, herança, etc.)" # Tipo do relacionamento
+      multiplicidade_de: "Multiplicidade na Classe 1 (ex: 1, 0..*, 1..1)" # Multiplicidade na classe de origem (opcional)
+      multiplicidade_para: "Multiplicidade na Classe 2 (ex: 1, 0..*, 1..1)" # Multiplicidade na classe de destino (opcional)
+  enumeracoes: # Lista de enumerações (opcional)
+    - nome: "Nome da Enumeração" # Nome da enumeração
+      valores: # Lista de valores da enumeração
+        - "Valor1"
+        - "Valor2"
