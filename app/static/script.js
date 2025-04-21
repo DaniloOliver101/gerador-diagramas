@@ -1,7 +1,77 @@
+/**
+ * AI-powered YAML generation functionality
+ */
+document.getElementById('gerar-yaml').addEventListener('click', () => {
+    const prompt = document.getElementById('ai-prompt').value;
+    
+    if (!prompt || prompt.trim().length < 10) {
+        alert('Please provide a more detailed description of the desired diagram.');
+        return;
+    }
+    
+    // Show loader
+    document.getElementById('ai-loader').style.display = 'block';
+    
+    fetchYamlFromAI(prompt);
+});
+
+/**
+ * Send request to AI service to generate YAML
+ * @param {string} prompt - The user's description of the desired diagram
+ */
+function fetchYamlFromAI(prompt) {
+    fetch('/generate_yaml', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prompt: prompt })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Request failed');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Hide loader
+        document.getElementById('ai-loader').style.display = 'none';
+        
+        if (data.error) {
+            alert("Error generating YAML: " + data.error);
+        } else {
+            // Fill YAML area with result
+            document.getElementById('yaml-input').value = data.yaml;
+        }
+    })
+    .catch(error => {
+        // Hide loader
+        document.getElementById('ai-loader').style.display = 'none';
+        console.error('Request error:', error);
+        alert('An error occurred while generating the YAML. Please try again later.');
+    });
+}
+
+/**
+ * Diagram generation functionality
+ */
 document.getElementById('gerar-diagrama').addEventListener('click', () => {
     const yamlInput = document.getElementById('yaml-input').value;
 
-    fetch('/gerar_diagrama', {
+    if (!yamlInput || yamlInput.trim().length === 0) {
+        alert('Please provide YAML code for the diagram.');
+        return;
+    }
+
+    generateDiagramFromYaml(yamlInput);
+});
+
+/**
+ * Send request to generate diagram from YAML
+ * @param {string} yamlInput - The YAML specification for the diagram
+ */
+function generateDiagramFromYaml(yamlInput) {
+    fetch('/generate_diagram', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -10,59 +80,39 @@ document.getElementById('gerar-diagrama').addEventListener('click', () => {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.erro) {
-            alert("Erro ao gerar o diagrama: " + data.erro);
+        if (data.error) {
+            alert("Error generating diagram: " + data.error);
         } else {
-            const imagemPath = data.imagem_path;
-            const descricaoAlternativa = data.descricao_alternativa;
-
-            const imgElement = `<img src="${imagemPath}" alt="${descricaoAlternativa}">`;
-            document.getElementById('diagrama-container').innerHTML = imgElement;
-            document.getElementById('descricao-alternativa').textContent = descricaoAlternativa;
-
-            // Exibe os botões de download e copiar
-            document.getElementById('download-diagram').style.display = 'inline-block';
-            document.getElementById('copy-diagram').style.display = 'inline-block';
-
-            // Configura o botão de download
-            document.getElementById('download-diagram').onclick = () => {
-                const a = document.createElement('a');
-                a.href = imagemPath;
-                a.download = 'diagrama.png'; // Nome do arquivo para download
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            };
-
-            // Configura o botão de copiar (abordagem alternativa)
-            document.getElementById('copy-diagram').onclick = () => {
-                const img = new Image();
-                img.crossOrigin = "anonymous";
-                img.onload = function () {
-                    const canvas = document.createElement("canvas");
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    const ctx = canvas.getContext("2d");
-                    ctx.drawImage(img, 0, 0);
-                    canvas.toBlob(blob => {
-                        navigator.clipboard.write([
-                            new ClipboardItem({
-                                "image/png": blob
-                            })
-                        ]).then(() => {
-                            alert("Imagem copiada para a área de transferência!");
-                        }).catch(err => {
-                            console.error("Falha ao copiar imagem: ", err);
-                            alert("Falha ao copiar imagem. Por favor, use o download.");
-                        });
-                    }, "image/png");
-                };
-                img.src = imagemPath;
-            };
+            displayGeneratedDiagram(data.image_path, data.alternative_description);
         }
     })
     .catch(error => {
-        console.error('Erro na requisição:', error);
-        alert('Ocorreu um erro ao gerar o diagrama.');
+        console.error('Error:', error);
+        alert('An error occurred while generating the diagram. Please try again later.');
     });
-});
+}
+
+/**
+ * Display the generated diagram in the UI
+ * @param {string} imagePath - Path to the generated diagram image
+ * @param {string} alternativeDescription - Accessibility description for the diagram
+ */
+function displayGeneratedDiagram(imagePath, alternativeDescription) {
+    const imgElement = `<img src="${imagePath}" alt="${alternativeDescription}">`;
+    document.getElementById('diagrama-container').innerHTML = imgElement;
+    document.getElementById('descricao-alternativa').textContent = alternativeDescription;
+
+    // Show download and copy buttons
+    document.getElementById('download-diagram').style.display = 'inline-block';
+    document.getElementById('copy-diagram').style.display = 'inline-block';
+
+    // Configure download button
+    document.getElementById('download-diagram').onclick = () => {
+        const a = document.createElement('a');
+        a.href = imagePath;
+        a.download = 'diagram.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+}

@@ -60,6 +60,7 @@ h2 {
     color: #333;
     border-bottom: 2px solid #eee;
     padding-bottom: 10px;
+    margin-top: 20px;
 }
 
 #diagrama-container {
@@ -70,4 +71,34 @@ h2 {
     margin-top: 10px;
     font-style: italic;
     color: #777;
+}
+
+.ai-prompt-area {
+    margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.ai-button {
+    background-color: #2196F3;
+    margin-top: 10px;
+}
+
+.ai-button:hover {
+    background-color: #0b7dda;
+}
+
+.loader {
+    margin-top: 10px;
+    color: #666;
+    font-style: italic;
+}
+
+.language-selection {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #666;
+    font-style: italic;
 }
