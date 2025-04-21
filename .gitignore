@@ -32,7 +32,9 @@ env/
 *.swo
 
 # Environment variables
+.env
 app/.env
+*.env
 
 # Generated files
 static/uploads/
@@ -45,4 +47,4 @@ static/uploads/
 
 # OS
 .DS_Store
-Thumbs.db 
+Thumbs.db

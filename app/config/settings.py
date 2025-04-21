@@ -14,7 +14,8 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # OpenAI API configuration
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 if not OPENAI_API_KEY:
-    raise ValueError("OPENAI_API_KEY environment variable is not set")
+    print("AVISO: OPENAI_API_KEY não está definida. As funcionalidades de IA estarão indisponíveis.")
+    # Não levanta exceção para permitir que o aplicativo inicie, mas com funcionalidades limitadas
 
 # Flask configuration
 class Config:

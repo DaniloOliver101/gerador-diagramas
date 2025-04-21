@@ -29,6 +29,10 @@ function fetchYamlFromAI(prompt) {
     })
     .then(response => {
         if (!response.ok) {
+            // Handle specific status codes
+            if (response.status === 503) {
+                throw new Error('OpenAI API key not configured. AI features are unavailable.');
+            }
             throw new Error('Request failed');
         }
         return response.json();
@@ -48,7 +52,7 @@ function fetchYamlFromAI(prompt) {
         // Hide loader
         document.getElementById('ai-loader').style.display = 'none';
         console.error('Request error:', error);
-        alert('An error occurred while generating the YAML. Please try again later.');
+        alert('An error occurred: ' + error.message);
     });
 }
 

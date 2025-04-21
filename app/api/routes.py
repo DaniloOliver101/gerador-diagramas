@@ -2,9 +2,10 @@
 API routes for diagram generation.
 """
 import uuid
+import os
 from flask import Blueprint, request, jsonify, render_template, send_from_directory
 
-from config.settings import UPLOAD_FOLDER
+from config.settings import UPLOAD_FOLDER, OPENAI_API_KEY
 from core.diagram_manager import generate_diagram
 from core.ai_service import generate_yaml_from_prompt
 
@@ -72,6 +73,10 @@ def generate_yaml_route():
         JSON response with generated YAML, or error
     """
     try:
+        # Verificar se a chave API está disponível
+        if not OPENAI_API_KEY:
+            return jsonify({'error': 'OpenAI API key is not configured. AI features are not available.'}), 503
+            
         prompt = request.json['prompt']
         if not prompt or not prompt.strip():
             return jsonify({'error': 'No prompt provided'}), 400
