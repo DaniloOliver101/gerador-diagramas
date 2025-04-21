@@ -1,5 +1,5 @@
 """
-API routes for diagram generation.
+Rotas da API para geração de diagramas.
 """
 import uuid
 import os
@@ -16,10 +16,10 @@ api_bp = Blueprint('api', __name__)
 @api_bp.route('/')
 def index():
     """
-    Render the main application page.
+    Renderiza a página principal da aplicação.
     
     Returns:
-        HTML rendered template
+        HTML template renderizado
     """
     return render_template('index.html')
 
@@ -27,22 +27,22 @@ def index():
 @api_bp.route('/generate_diagram', methods=['POST'])
 def generate_diagram_route():
     """
-    Generate a diagram from YAML data.
+    Gera um diagrama a partir de dados YAML.
     
-    Request JSON format:
+    Formato JSON da requisição:
         {
-            "yaml_data": "YAML string for diagram generation"
+            "yaml_data": "String YAML para geração do diagrama"
         }
     
     Returns:
-        JSON response with image path and alternative description, or error
+        Resposta JSON com caminho da imagem e descrição alternativa, ou erro
     """
     try:
         yaml_data = request.json['yaml_data']
         if not yaml_data or not yaml_data.strip():
-            return jsonify({'error': 'No YAML data provided'}), 400
+            return jsonify({'error': 'Nenhum dado YAML fornecido'}), 400
             
-        filename = str(uuid.uuid4())  # Unique identifier for the file
+        filename = str(uuid.uuid4())  # Identificador único para o arquivo
         
         image_path, alt_description, error = generate_diagram(yaml_data, filename)
 
@@ -54,51 +54,51 @@ def generate_diagram_route():
             'alternative_description': alt_description
         })
     except KeyError:
-        return jsonify({'error': 'Missing yaml_data field in request'}), 400
+        return jsonify({'error': 'Campo yaml_data ausente na requisição'}), 400
     except Exception as e:
-        return jsonify({'error': f"Error processing request: {str(e)}"}), 500
+        return jsonify({'error': f"Erro ao processar requisição: {str(e)}"}), 500
 
 
 @api_bp.route('/generate_yaml', methods=['POST'])
 def generate_yaml_route():
     """
-    Generate YAML from text description using AI.
+    Gera YAML a partir de descrição textual usando IA.
     
-    Request JSON format:
+    Formato JSON da requisição:
         {
-            "prompt": "Description of the desired diagram"
+            "prompt": "Descrição do diagrama desejado"
         }
     
     Returns:
-        JSON response with generated YAML, or error
+        Resposta JSON com YAML gerado, ou erro
     """
     try:
         # Verificar se a chave API está disponível
         if not OPENAI_API_KEY:
-            return jsonify({'error': 'OpenAI API key is not configured. AI features are not available.'}), 503
+            return jsonify({'error': 'Chave da API OpenAI não está configurada. Recursos de IA estão indisponíveis.'}), 503
             
         prompt = request.json['prompt']
         if not prompt or not prompt.strip():
-            return jsonify({'error': 'No prompt provided'}), 400
+            return jsonify({'error': 'Nenhum prompt fornecido'}), 400
             
         yaml_content = generate_yaml_from_prompt(prompt)
         return jsonify({'yaml': yaml_content})
         
     except KeyError:
-        return jsonify({'error': 'Missing prompt field in request'}), 400
+        return jsonify({'error': 'Campo prompt ausente na requisição'}), 400
     except Exception as e:
-        return jsonify({'error': f"Error processing request: {str(e)}"}), 500
+        return jsonify({'error': f"Erro ao processar requisição: {str(e)}"}), 500
 
 
 @api_bp.route('/static/uploads/<filename>')
 def serve_diagram_file(filename):
     """
-    Serve generated diagram files from the uploads directory.
+    Serve arquivos de diagrama gerados a partir do diretório de uploads.
     
     Args:
-        filename (str): Name of the file to serve
+        filename (str): Nome do arquivo a ser servido
         
     Returns:
-        File response
+        Resposta de arquivo
     """
     return send_from_directory(UPLOAD_FOLDER, filename)
